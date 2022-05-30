@@ -1,1 +1,12 @@
-Model SysADLModel ; package SysADL.types { value type Int { } value type Boolean { } value type String { } value type Void { } value type Real { } }
+Model Requisitos ; using componentes.MotorCP ; using componentes.DispositivoAcionamentoMotorCP ; package SysADL.types { value type Int { } value type Boolean { } value type String { } value type Void { } value type Real { } } package sensores {
+	component def SensorQualidadeCombustivelCP { }
+	component def SensorTemperaturaArCP { }
+	component def SensorQtdOxigenioCP { }
+	component def SensorRotacaoVirabrequimCP { }
+	component def SensorVelocidadeRodasCP { }
+	component def SensorTemperaturaMotorCP { }
+	component def SensorCombustivelCP { } } package componentes { import sensores ; using sensores.SensorCombustivelCP ;
+	component def MotorCP { }
+	component def CentralEletronicaAutomovelCP { }
+	component def DispositivoAcionamentoMotorCP { }
+	component def PainelCP { } } Requirement LigarMotorFR ( 1 ) { text = "Quando o dispositivo de acionamento do motor for ligado pelo usuário, o sistema deve ligar o motor" satisfied by componentes.DispositivoAcionamentoMotorCP ; } Requirement IdentificarTemperaturaFR ( 2 ) { text = "O sistema deve ser capaz de identificar a temperatura do motor" satisfied by sensores.SensorTemperaturaMotorCP ; Requirement IdentificarTemperaturaAltaNFR ( 6 ) { text = "Se o sistema identificar temperatura do motor maior que 100 graus, ele deve avisar ao motorista (no painel e tocando um BIP) que em 2 minutos irá desligar o carro. Após 2 minutos o sistema deve desligar o carro" satisfied by componentes.DispositivoAcionamentoMotorCP ; } } Requirement ExibirInformacoesFR ( 4 ) { text = "O sistema deve exibir, em um painel, o status da temperatura e a quantidade do combustível" satisfied by componentes.CentralEletronicaAutomovelCP ; } Requirement IdentificarCombustivelFR ( 3 ) { text = "O sistema deve ser capaz de identificar o nível de combustível" satisfied by sensores.SensorCombustivelCP ; Requirement VerifyLowFuelNFR ( 5 ) { text = "Se o sistema identificar que o combustível está abaixo de 2 litros, ele deve avisar ao motorista (no painel e tocando um BIP) que em 2 minutos irá desligar o carro. Após 2 minutos o sistema deve desligar o carro" } } Requirement TurnOffCarLowFuelNFR ( 7 ) { text = "Turn off the car 2 minutes after low fuel warning" }
